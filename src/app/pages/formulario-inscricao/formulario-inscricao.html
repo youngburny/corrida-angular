@@ -87,7 +87,11 @@
     </fieldset>
 
     @if (mensagemErro) {
-      <p class="error-message" role="alert">{{ mensagemErro }}</p>
+      <p class="mensagem-erro" role="alert">{{ mensagemErro }}</p>
+    }
+
+    @if (mensagemSucesso) {
+        <p class="mensagem-sucesso" role="status">{{ mensagemSucesso }}</p>
     }
 
     <div class="form-actions">

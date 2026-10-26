@@ -1,64 +1,62 @@
+
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+
+import {
+  InscricaoService
+} from '../../dominio/inscricao.service';
+
+import type {
+  Distancia
+} from '../../dominio/inscricao.regras';
 
 @Component({
   selector: 'app-formulario-inscricao',
   imports: [FormsModule, RouterLink],
   templateUrl: './formulario-inscricao.html',
-  styleUrl: './formulario-inscricao.css',
+  styleUrl: './formulario-inscricao.css'
 })
-export class FormularioInscricao {
 
+export class FormularioInscricao {
   nome = '';
   email = '';
   nascimento = '';
-  distancia: 'KM_5' | 'KM_10' = 'KM_5';
+  distancia: Distancia = 'KM_5';
 
   mensagemErro = '';
+  mensagemSucesso = '';
+
+  constructor(
+    private inscricaoService: InscricaoService
+  ) {}
 
   enviarFormulario(): void {
-
     this.mensagemErro = '';
+    this.mensagemSucesso = '';
 
-    const nomeNormalizado = this.nome.trim().replace(/\s+/g, ' ');
-    const emailNormalizado = this.email.trim().toLowerCase();
+    try {
 
-    if (nomeNormalizado.length < 3 || nomeNormalizado.length > 100) {
-      this.mensagemErro = 'O nome deve ter entre 3 e 100 caracteres.';
-      return;
-    }
+      this.inscricaoService.cadastrar({
+        nome: this.nome,
+        email: this.email,
+        nascimento: this.nascimento,
+        distancia: this.distancia
 
-    if (!emailNormalizado || !emailNormalizado.includes('@')) {
-      this.mensagemErro = 'Informe um e-mail válido.';
-      return;
-    }
+      });
 
-    if (!this.nascimento) {
-      this.mensagemErro = 'Informe sua data de nascimento.';
-      return;
-    }
+      this.mensagemSucesso = 'Inscrição realizada com sucesso! Seus dados foram salvos.';
 
-    const dataNascimento = new Date(`${this.nascimento}T00:00:00`);
-    const hoje = new Date();
-    hoje.setHours(0, 0, 0, 0);
+      // Limpa os campos depois do cadastro
+      this.nome = '';
+      this.email = '';
+      this.nascimento = '';
+      this.distancia = 'KM_5';
 
-    if (
-      Number.isNaN(dataNascimento.getTime()) ||
-      dataNascimento >= hoje
-    ) {
-      this.mensagemErro = 'A data de nascimento deve ser anterior a hoje.';
-      return;
-    }
-
-    this.nome = nomeNormalizado;
-    this.email = emailNormalizado;
-
-    alert('Dados validados! Na próxima etapa, vamos salvar a inscrição.');
+    } catch (erro: unknown) {
+      this.mensagemErro = erro instanceof Error ? erro.message : 'Não foi possível realizar a inscrição.';
+    };
 
   };
 
 };
-
-
-

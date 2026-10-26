@@ -183,12 +183,22 @@
   opacity: 1;
 }
 
-.error-message {
+.mensagem-erro {
   padding: 12px 14px;
+  border: 1px solid;
   color: #9d3434;
   background: #fff0ef;
   border-radius: 9px;
   font-size: 0.85rem;
+}
+
+.mensagem-sucesso {
+  padding: 14px 16px;
+  border: 1px solid #3b8052;
+  border-radius: 8px;
+  background-color: #e6f5e9;
+  color: #245b35;
+  font-weight: 600;
 }
 
 .form-actions {

@@ -1,5 +1,16 @@
 import { Component } from '@angular/core';
-import { email } from '@angular/forms/signals';
+import { RouterLink } from '@angular/router';
+
+import {
+  InscricaoService,
+  type Inscricao
+} from '../../dominio/inscricao.service';
+
+import {
+  avaliarInscricao,
+  DATA_PROVA,
+  type Categoria
+} from '../../dominio/inscricao.regras';
 
 interface Participante {
   nome: string;
@@ -11,53 +22,64 @@ interface Participante {
 
 @Component({
   selector: 'app-inscricoes',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './inscricoes.html',
-  styleUrl: './inscricoes.css',
+  styleUrl: './inscricoes.css'
 })
+
 export class Inscricoes {
-  participantes: Participante[] = [
+  participantes: Participante[] = [];
+  mensagemErro = '';
 
-    {
-      nome: 'Bruno Furtado',
-      email: 'bruno.furtado@email.com',
-      idade: 23,
-      distancia: 'KM_10',
-      categoria: 'Adulto',
-    },
+  constructor(
+    private inscricaoService: InscricaoService
+  ) {
+    this.carregarParticipantes();
+  }
 
-    {
-      nome: 'Fernando Melo',
-      email: 'fernando.melo@email.com',
-      idade: 27,
-      distancia: 'KM_10',
-      categoria: 'Adulto'
-    },
+  carregarParticipantes(): void {
+    this.mensagemErro = '';
 
-    {
-      nome: 'Sarah Mendes',
-      email: 'sarah.mendas@email.com',
-      idade: 43,
-      distancia: 'KM_5',
-      categoria: 'Master'
-    },
+    try {
 
-    {
-      nome: 'Karen Rosa',
-      email: 'karen.rosa@email.com',
-      idade: 71,
-      distancia: 'KM_10',
-      categoria: 'Sênior'
-    },
+      const inscricoes: Inscricao[] = this.inscricaoService.listar();
 
-    {
-      nome: 'João Guilherme',
-      email: 'joao.guilherme@email.com',
-      idade: 15,
-      distancia: 'KM_5',
-      categoria: 'Juvenil'
+      this.participantes = inscricoes.map(inscricao => {
+        const avaliacao = avaliarInscricao(
+          inscricao.nascimento,
+          inscricao.distancia,
+          DATA_PROVA
+        );
+
+        return {
+          nome: inscricao.nome,
+          email: inscricao.email,
+          idade: avaliacao.idade,
+          distancia: inscricao.distancia,
+          categoria: this.nomeCategoria(avaliacao.categoria)
+        };
+
+      });
+    
+    } catch {
+      this.participantes = [];
+      this.mensagemErro =
+        'Não foi possível carregar as inscrições salvas.';
     }
-  ];
+  }
+
+  private nomeCategoria(
+    categoria: Categoria | null): Participante['categoria'] {
+
+      const nomes: Record<Categoria, Participante['categoria']> = {
+        JUVENIL: 'Juvenil',
+        ADULTO: 'Adulto',
+        MASTER: 'Master',
+        SENIOR: 'Sênior'
+      };
+
+    return categoria ? nomes[categoria] : 'Juvenil';
+  }
 
   get totalInscritos(): number {
     return this.participantes.length;

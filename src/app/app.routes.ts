@@ -11,13 +11,13 @@ export const routes: Routes = [
     },
 
     {
-        path: 'inscricoes',
-        component: Inscricoes
+        path: 'inscricoes/nova-inscricao',
+        component: FormularioInscricao
     },
 
     {
-        path: 'inscricoes/nova-inscricao',
-        component: FormularioInscricao
+        path: 'inscricoes',
+        component: Inscricoes
     },
 
     {

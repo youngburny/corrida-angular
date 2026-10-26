@@ -24,6 +24,11 @@
     </header>
 
     <section class="detalhes-card">
+
+    <button type="button" (click)="abrirEdicao()">
+        Editar inscrição
+    </button>
+
       <div class="campo-detalhe">
         <span>E-mail</span>
         <strong>{{ inscricao.email }}</strong>
@@ -62,5 +67,87 @@
       não perecível na retirada do kit.
     </p>
   }
+
   
+@if (editando) {
+  <div class="modal-fundo" (click)="fecharEdicao()">
+    <section
+      class="modal-conteudo"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="titulo-edicao"
+      (click)="$event.stopPropagation()"
+    >
+      <button
+        type="button"
+        class="modal-fechar"
+        aria-label="Fechar edição"
+        (click)="fecharEdicao()"
+      >
+        ×
+      </button>
+
+      <h2 id="titulo-edicao">Editar inscrição</h2>
+      <p>Atualize seus dados antes de salvar.</p>
+
+      <form #formEdicao="ngForm" (ngSubmit)="salvarEdicao()">
+        <label for="nomeEditado">Nome completo</label>
+        <input
+          id="nomeEditado"
+          name="nomeEditado"
+          [(ngModel)]="nomeEditado"
+          required
+          minlength="3"
+          maxlength="100"
+        />
+
+        <label for="emailEditado">E-mail (não pode ser alterado)</label>
+        <input
+          id="emailEditado"
+          name="emailEditado"
+          [ngModel]="emailEditado"
+          readonly
+        />
+
+        <label for="nascimentoEditado">Data de nascimento</label>
+        <input
+          id="nascimentoEditado"
+          name="nascimentoEditado"
+          type="date"
+          [(ngModel)]="nascimentoEditado"
+          required
+        />
+
+        <label for="distanciaEditada">Distância</label>
+        <select
+          id="distanciaEditada"
+          name="distanciaEditada"
+          [(ngModel)]="distanciaEditada"
+          required
+        >
+          <option value="KM_5">5 km</option>
+          <option value="KM_10">10 km</option>
+        </select>
+
+        @if (mensagemEdicao) {
+          <p class="mensagem-erro" role="alert">
+            {{ mensagemEdicao }}
+          </p>
+        }
+
+        <div class="modal-acoes">
+          <button type="button" (click)="fecharEdicao()">
+            Cancelar
+          </button>
+
+          <button type="submit" [disabled]="formEdicao.invalid">
+            Salvar alterações
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+}
+
+
 </main>

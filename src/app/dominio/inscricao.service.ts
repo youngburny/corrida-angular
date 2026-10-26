@@ -114,4 +114,87 @@ export class InscricaoService {
       inscricao => normalizarEmail(inscricao.email) === emailNormalizado
     );
   }
+
+  
+atualizar(emailOriginal: string, alteracoes: Pick<Inscricao, 'nome' | 'nascimento' | 'distancia'>): void {
+  const inscricoes = this.listar();
+
+  const indice = inscricoes.findIndex(
+    inscricao =>
+      normalizarEmail(inscricao.email) === normalizarEmail(emailOriginal)
+  );
+
+  if (indice === -1) {
+    throw new Error('Inscrição não encontrada.');
+  }
+
+  const nome = alteracoes.nome.trim().replace(/\s+/g, ' ');
+
+  if (nome.length < 3 || nome.length > 100) {
+    throw new Error('O nome deve ter entre 3 e 100 caracteres.');
+  }
+
+  const nascimento = alteracoes.nascimento;
+  const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(nascimento);
+
+  if (!partes) {
+    throw new Error('Informe uma data de nascimento válida.');
+  }
+
+  const ano = Number(partes[1]);
+  const mes = Number(partes[2]);
+  const dia = Number(partes[3]);
+  const dataNascimento = new Date(ano, mes - 1, dia);
+
+  const hoje = new Date();
+  hoje.setHours(0, 0, 0, 0);
+
+  if (
+    dataNascimento.getFullYear() !== ano ||
+    dataNascimento.getMonth() !== mes - 1 ||
+    dataNascimento.getDate() !== dia ||
+    dataNascimento >= hoje
+  ) {
+    throw new Error(
+      'A data de nascimento deve ser válida e anterior a hoje.'
+    );
+  }
+
+  if (alteracoes.distancia !== 'KM_5' &&
+      alteracoes.distancia !== 'KM_10') {
+    throw new Error('Selecione uma distância válida.');
+  }
+
+  const avaliacao = avaliarInscricao(
+    nascimento,
+    alteracoes.distancia,
+    DATA_PROVA
+  );
+
+  if (avaliacao.erro === 'IDADE_MINIMA') {
+    throw new Error(
+      'É necessário ter pelo menos 14 anos no dia da prova.'
+    );
+  }
+
+  if (avaliacao.erro === 'DISTANCIA_NAO_PERMITIDA') {
+    throw new Error(
+      'A distância de 10 km é permitida apenas para maiores de 17 anos.'
+    );
+  }
+
+  inscricoes[indice] = {
+    ...inscricoes[indice],
+    nome,
+    nascimento,
+    distancia: alteracoes.distancia
+  };
+
+  localStorage.setItem(
+    CHAVE_STORAGE,
+    JSON.stringify(inscricoes)
+  );
+
+}
+
 }

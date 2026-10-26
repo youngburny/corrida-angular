@@ -1,20 +1,15 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
-import {
-  InscricaoService,
-  type Inscricao
-} from '../../dominio/inscricao.service';
+import { InscricaoService, type Inscricao } from '../../dominio/inscricao.service';
 
-import {
-  avaliarInscricao,
-  DATA_PROVA,
-  type Categoria
-} from '../../dominio/inscricao.regras';
+import { avaliarInscricao, DATA_PROVA, type Categoria, type Distancia } from '../../dominio/inscricao.regras';
+
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-detalhes-inscricao',
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './detalhes-inscricao.html',
   styleUrl: './detalhes-inscricao.css'
 })
@@ -23,6 +18,69 @@ export class DetalhesInscricao {
   idade: number | null = null;
   categoria = '';
   mensagemErro = '';
+
+  editando = false;
+  nomeEditado = '';
+  emailEditado = '';
+  nascimentoEditado = '';
+  distanciaEditada: Distancia =  'KM_5';
+  mensagemEdicao = '';
+
+  
+abrirEdicao(): void { 
+  
+  if (!this.inscricao) return;
+
+  this.nomeEditado = this.inscricao.nome;
+  this.emailEditado = this.inscricao.email;
+  this.nascimentoEditado = this.inscricao.nascimento;
+  this.distanciaEditada = this.inscricao.distancia;
+
+  this.mensagemEdicao = '';
+  this.editando = true;
+}
+
+fecharEdicao(): void {
+  this.editando = false;
+  this.mensagemEdicao = '';
+}
+
+salvarEdicao(): void {
+  if (!this.inscricao) return;
+
+  this.mensagemEdicao = '';
+
+  try {
+    this.inscricaoService.atualizar(this.inscricao.email, {
+      nome: this.nomeEditado,
+      nascimento: this.nascimentoEditado,
+      distancia: this.distanciaEditada
+    });
+
+    this.inscricao = this.inscricaoService.buscarPorEmail(
+      this.inscricao.email
+    );
+
+    if (this.inscricao) {
+      const avaliacao = avaliarInscricao(
+        this.inscricao.nascimento,
+        this.inscricao.distancia,
+        DATA_PROVA
+      );
+
+      this.idade = avaliacao.idade;
+      this.categoria = this.nomeCategoria(avaliacao.categoria);
+    }
+
+    this.editando = false;
+  } catch (erro: unknown) {
+    this.mensagemEdicao =
+      erro instanceof Error
+        ? erro.message
+        : 'Não foi possível salvar as alterações.';
+  }
+}
+
 
   constructor(
     private route: ActivatedRoute,

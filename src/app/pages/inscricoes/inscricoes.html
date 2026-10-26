@@ -1,0 +1,95 @@
+<header class="page-heading">
+  <div>
+    <span class="overline">PASSO VIVO / COMUNIDADE</span>
+    <h1>Participantes<span class="title-dot">.</span></h1>
+    <p>Quem escolheu transformar movimento em solidariedade.</p>
+  </div>
+
+  <a class="new-button" routerLink="/inscricoes/nova">
+    <span>＋</span> Nova inscrição
+  </a>
+</header>
+
+<section class="summary" aria-label="Resumo das inscrições">
+  <article class="summary-main">
+    <span class="summary-label">PARTICIPANTES ATIVOS</span>
+    <strong class="summary-number">{{ totalInscritos }}</strong>
+    <span class="summary-description">Pessoas inscritas na corrida</span>
+    <span class="summary-decoration">↗</span>
+  </article>
+
+  <article class="summary-card">
+    <div class="summary-icon green">↗</div>
+    <span class="summary-label">PERCURSO CURTO</span>
+    <strong class="summary-number">{{ totalKm5 }}</strong>
+    <span class="summary-description">Inscritos nos 5 km</span>
+  </article>
+
+  <article class="summary-card">
+    <div class="summary-icon orange">↗</div>
+    <span class="summary-label">PERCURSO LONGO</span>
+    <strong class="summary-number">{{ totalKm10 }}</strong>
+    <span class="summary-description">Inscritos nos 10 km</span>
+  </article>
+</section>
+
+<section class="participants-section">
+  <div class="list-heading">
+    <div>
+      <h2>Lista de participantes</h2>
+      <p>Confira os dados de quem vai participar.</p>
+    </div>
+
+    <span class="result-count">
+      {{ totalInscritos }} participantes
+    </span>
+  </div>
+
+  <div class="participant-list">
+    @for (participante of participantes; track participante.email) {
+      <article class="participant-card">
+        <div class="participant-avatar">
+          {{ participante.nome.charAt(0) }}
+        </div>
+
+        <div class="participant-info">
+          <h3>{{ participante.nome }}</h3>
+          <p class="participant-email">{{ participante.email }}</p>
+
+          <div class="participant-tags">
+            <span
+              class="category-tag"
+              [class.juvenil]="participante.categoria === 'Juvenil'"
+              [class.master]="participante.categoria === 'Master'"
+              [class.senior]="participante.categoria === 'Sênior'"
+            >
+              {{ participante.categoria }}
+            </span>
+
+            <span class="distance-tag">
+              {{ participante.distancia === 'KM_5' ? '5 km' : '10 km' }}
+            </span>
+
+            <span class="age-tag">
+              {{ participante.idade }} anos
+            </span>
+          </div>
+        </div>
+
+        <a
+          class="details-link"
+          [attr.href]="'/inscricoes/' + participante.email"
+        >
+          Ver perfil <span>→</span>
+        </a>
+      </article>
+    } @empty {
+      <div class="empty-state">
+        <span>🌱</span>
+        <h3>A jornada começa com alguém.</h3>
+        <p>Ainda não há participantes cadastrados.</p>
+        <a routerLink="/inscricoes/nova">Cadastrar primeiro participante</a>
+      </div>
+    }
+  </div>
+</section>

@@ -16,9 +16,8 @@ export interface Inscricao {
 
 const CHAVE_STORAGE = 'corrida.inscricoes.v1';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
+
 export class InscricaoService {
 
   listar(): Inscricao[] {

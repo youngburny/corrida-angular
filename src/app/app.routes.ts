@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Inscricoes } from './pages/inscricoes/inscricoes';
 import { FormularioInscricao } from './pages/formulario-inscricao/formulario-inscricao';
+import { DetalhesInscricao } from './pages/detalhes-inscricao/detalhes-inscricao';
 
 export const routes: Routes = [
 
@@ -13,6 +14,11 @@ export const routes: Routes = [
     {
         path: 'inscricoes/nova-inscricao',
         component: FormularioInscricao
+    },
+
+    {
+        path: 'inscricoes/:email',
+        component: DetalhesInscricao
     },
 
     {

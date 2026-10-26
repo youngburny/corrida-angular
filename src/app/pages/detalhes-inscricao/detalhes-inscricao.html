@@ -1,0 +1,66 @@
+<main class="detalhes-container">
+  <a class="link-voltar" routerLink="/inscricoes">
+    ← Voltar para participantes
+  </a>
+
+  @if (mensagemErro) {
+    <section class="estado-erro">
+      <h1>Inscrição indisponível</h1>
+      <p>{{ mensagemErro }}</p>
+
+      <a routerLink="/inscricoes">
+        Voltar para a lista
+      </a>
+    </section>
+  } @else if (inscricao) {
+    <header class="detalhes-header">
+      <span class="sobretitulo">PASSO VIVO / PARTICIPANTE</span>
+
+      <h1>{{ inscricao.nome }}</h1>
+
+      <p>
+        Detalhes da inscrição na 5ª Corrida Solidária da Vila Esperança.
+      </p>
+    </header>
+
+    <section class="detalhes-card">
+      <div class="campo-detalhe">
+        <span>E-mail</span>
+        <strong>{{ inscricao.email }}</strong>
+      </div>
+
+      <div class="campo-detalhe">
+        <span>Data de nascimento</span>
+        <strong>{{ inscricao.nascimento }}</strong>
+      </div>
+
+      <div class="campo-detalhe">
+        <span>Idade no dia da prova</span>
+        <strong>{{ idade }} anos</strong>
+      </div>
+
+      <div class="campo-detalhe">
+        <span>Categoria</span>
+        <strong>{{ categoria }}</strong>
+      </div>
+
+      <div class="campo-detalhe">
+        <span>Distância escolhida</span>
+        <strong>
+          {{ inscricao.distancia === 'KM_5' ? '5 km' : '10 km' }}
+        </strong>
+      </div>
+
+      <div class="campo-detalhe">
+        <span>Data da corrida</span>
+        <strong>14/03/2027</strong>
+      </div>
+    </section>
+
+    <p class="aviso-kit">
+      A inscrição é gratuita. Lembre-se de levar 1 kg de alimento
+      não perecível na retirada do kit.
+    </p>
+  }
+  
+</main>

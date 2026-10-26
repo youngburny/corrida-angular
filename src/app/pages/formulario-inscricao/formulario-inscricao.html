@@ -1,0 +1,100 @@
+<header class="form-heading">
+  <a routerLink="/inscricoes" class="back-link">← Voltar aos participantes</a>
+  <span class="overline">PASSO VIVO / NOVO PARTICIPANTE</span>
+  <h1>Sua próxima jornada começa aqui<span>.</span></h1>
+  <p>Preencha seus dados para participar da corrida.</p>
+</header>
+
+<section class="form-card">
+  <div class="form-card-heading">
+    <div>
+      <h2>Dados do participante</h2>
+      <p>Os campos marcados são obrigatórios.</p>
+    </div>
+    <span class="form-icon">✳</span>
+  </div>
+
+  <form #formulario="ngForm" (ngSubmit)="enviarFormulario()">
+    <div class="field">
+      <label for="nome">Nome completo</label>
+      <input
+        id="nome"
+        name="nome"
+        type="text"
+        [(ngModel)]="nome"
+        required
+        minlength="3"
+        maxlength="100"
+        placeholder="Ex.: Marina Costa"
+      />
+    </div>
+
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        [(ngModel)]="email"
+        required
+        email
+        placeholder="voce@exemplo.com"
+      />
+      <small>Utilizaremos seu e-mail para identificar sua inscrição.</small>
+    </div>
+
+    <div class="field">
+      <label for="nascimento">Data de nascimento</label>
+      <input
+        id="nascimento"
+        name="nascimento"
+        type="date"
+        [(ngModel)]="nascimento"
+        required
+      />
+    </div>
+
+    <fieldset class="distance-field">
+      <legend>Escolha seu percurso</legend>
+
+      <label class="distance-option" [class.selected]="distancia === 'KM_5'">
+        <input
+          type="radio"
+          name="distancia"
+          [(ngModel)]="distancia"
+          value="KM_5"
+        />
+        <span class="option-content">
+          <strong>5 quilômetros</strong>
+          <small>Um primeiro passo para o desafio.</small>
+        </span>
+        <span class="option-check">✓</span>
+      </label>
+
+      <label class="distance-option" [class.selected]="distancia === 'KM_10'">
+        <input
+          type="radio"
+          name="distancia"
+          [(ngModel)]="distancia"
+          value="KM_10"
+        />
+        <span class="option-content">
+          <strong>10 quilômetros</strong>
+          <small>Para quem busca um percurso maior.</small>
+        </span>
+        <span class="option-check">✓</span>
+      </label>
+    </fieldset>
+
+    @if (mensagemErro) {
+      <p class="error-message" role="alert">{{ mensagemErro }}</p>
+    }
+
+    <div class="form-actions">
+      <a routerLink="/inscricoes" class="cancel-button">Cancelar</a>
+      <button type="submit" [disabled]="formulario.invalid">
+        Validar inscrição →
+      </button>
+    </div>
+  </form>
+</section>

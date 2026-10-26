@@ -1,0 +1,258 @@
+:host {
+  display: block;
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 42px 28px 80px;
+  color: #203b2c;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 34px;
+  color: #347a4c;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.back-link:hover {
+  color: #1d5934;
+}
+
+.overline {
+  display: block;
+  color: #368557;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+
+.form-heading h1 {
+  max-width: 700px;
+  margin: 13px 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.055em;
+}
+
+.form-heading h1 span {
+  color: #3ca668;
+}
+
+.form-heading > p {
+  margin: 0;
+  color: #78877b;
+  line-height: 1.7;
+}
+
+.form-card {
+  margin-top: 34px;
+  padding: 32px;
+  background: #ffffff;
+  border: 1px solid #e3ebe0;
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgb(36 74 44 / 4%);
+}
+
+.form-card-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.form-card-heading h2 {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+
+.form-card-heading p {
+  margin: 0;
+  color: #78877b;
+  font-size: 0.87rem;
+}
+
+.form-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  color: #267a49;
+  background: #e4f4e6;
+  border-radius: 13px;
+  font-size: 1.5rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-bottom: 23px;
+}
+
+.field label,
+.distance-field legend {
+  color: #2e4636;
+  font-size: 0.88rem;
+  font-weight: 750;
+}
+
+.field input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  color: #203b2c;
+  background: #fcfdfb;
+  border: 1px solid #dce6d9;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus {
+  border-color: #39965a;
+  box-shadow: 0 0 0 3px rgb(57 150 90 / 12%);
+}
+
+.field input::placeholder {
+  color: #a0aaa0;
+}
+
+.field small {
+  color: #78877b;
+  font-size: 0.77rem;
+}
+
+.distance-field {
+  display: grid;
+  gap: 12px;
+  margin: 4px 0 25px;
+  padding: 0;
+  border: 0;
+}
+
+.distance-field legend {
+  margin-bottom: 14px;
+}
+
+.distance-option {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 17px;
+  border: 1px solid #dfe8dc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.distance-option.selected {
+  background: #f1f9f1;
+  border-color: #68ad7a;
+}
+
+.distance-option input {
+  accent-color: #267a49;
+}
+
+.option-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.option-content strong {
+  font-size: 0.9rem;
+}
+
+.option-content small {
+  color: #78877b;
+  font-size: 0.8rem;
+}
+
+.option-check {
+  color: #267a49;
+  font-weight: 800;
+  opacity: 0;
+}
+
+.distance-option.selected .option-check {
+  opacity: 1;
+}
+
+.error-message {
+  padding: 12px 14px;
+  color: #9d3434;
+  background: #fff0ef;
+  border-radius: 9px;
+  font-size: 0.85rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  padding-top: 23px;
+  border-top: 1px solid #e8eee5;
+}
+
+.cancel-button,
+.form-actions button {
+  min-height: 46px;
+  padding: 0 19px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.cancel-button {
+  color: #53675a;
+  background: white;
+  border: 1px solid #dce6d9;
+}
+
+.form-actions button {
+  color: white;
+  background: #267a49;
+  border: 1px solid #267a49;
+  transition: background 0.2s;
+}
+
+.form-actions button:hover:not(:disabled) {
+  background: #1d6139;
+}
+
+.form-actions button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+@media (max-width: 520px) {
+  :host {
+    padding: 28px 17px 55px;
+  }
+
+  .form-card {
+    padding: 22px 17px;
+  }
+
+  .form-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .form-actions button {
+    width: 100%;
+  }
+}

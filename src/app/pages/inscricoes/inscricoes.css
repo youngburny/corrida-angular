@@ -282,9 +282,13 @@
 .details-link {
   flex-shrink: 0;
   display: inline-flex;
+  background-color: #1c6139;
+  border: 2px solid #71cf68;
+  border-radius: 6px;
+  padding: 10px 16px;
   align-items: center;
   gap: 10px;
-  color: #267a49;
+  color: #f4f7f5;
   font-size: 0.83rem;
   font-weight: 750;
 }
@@ -378,4 +382,23 @@
   .details-link {
     margin-left: 0;
   }
+}
+
+.botao-cancelar {
+  padding: 8px 12px;
+  border: 2px solid #f0f0f0;
+  border-radius: 6px;
+  background: #e74949;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.botao-cancelar:hover {
+  background: #e64956;
+}
+
+.botao-cancelar:focus-visible {
+  outline: 3px solid #d9a441;
+  outline-offset: 3px;
 }

@@ -76,6 +76,13 @@
           </div>
         </div>
 
+        <button
+          type="button"
+          class="botao-cancelar"
+          (click)="cancelarInscricao(participante.email, participante.nome)">
+          Cancelar inscrição
+        </button>
+
         <a
           class="details-link"
           [attr.href]="'/inscricoes/' + participante.email"

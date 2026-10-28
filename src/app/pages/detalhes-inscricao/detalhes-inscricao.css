@@ -220,3 +220,16 @@
   }
 }
 
+.botao-cancelar {
+  padding: 10px 16px;
+  border: 2px solid #842029;
+  border-radius: 6px;
+  background: #df5656;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.botao-cancelar:hover {
+  background: #842029;
+}

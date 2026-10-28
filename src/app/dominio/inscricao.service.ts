@@ -197,4 +197,21 @@ atualizar(emailOriginal: string, alteracoes: Pick<Inscricao, 'nome' | 'nasciment
 
 }
 
+cancelar(email: string): void {
+
+  const inscricoes = this.listar();
+  const emailNormalizado = normalizarEmail(email);
+
+  const indice = inscricoes.findIndex(inscricao => normalizarEmail(inscricao.email) === emailNormalizado);
+
+  if (indice === -1) {
+    throw new Error('Inscrição não encontrada.');
+  }
+
+  inscricoes.splice(indice, 1);
+
+  localStorage.setItem(CHAVE_STORAGE, JSON.stringify(inscricoes));
+
+}
+
 }

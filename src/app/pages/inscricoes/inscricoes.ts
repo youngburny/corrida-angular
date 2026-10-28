@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Route, Router, RouterLink } from '@angular/router';
 
 import {
   InscricaoService,
@@ -32,7 +32,8 @@ export class Inscricoes {
   mensagemErro = '';
 
   constructor(
-    private inscricaoService: InscricaoService
+    private inscricaoService: InscricaoService,
+    private router: Router
   ) {
     this.carregarParticipantes();
   }
@@ -67,6 +68,27 @@ export class Inscricoes {
         'Não foi possível carregar as inscrições salvas.';
     }
   }
+
+  cancelarInscricao(email: string, nome: string): void {
+    const confirmou = window.confirm(
+      `Deseja realmente cancelar a inscrição de ${nome}?`
+    );
+
+    if (!confirmou) return;
+
+    this.mensagemErro = '';
+
+    try {
+      this.inscricaoService.cancelar(email);
+      this.carregarParticipantes();
+    } catch (erro: unknown) {
+      this.mensagemErro =
+        erro instanceof Error
+          ? erro.message
+          : 'Não foi possível cancelar a inscrição.';
+    }
+  }
+
 
   private nomeCategoria(
     categoria: Categoria | null): Participante['categoria'] {

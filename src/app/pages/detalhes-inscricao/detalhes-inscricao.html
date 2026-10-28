@@ -29,6 +29,14 @@
         Editar inscrição
     </button>
 
+    <button
+          type="button"
+          class="botao-cancelar"
+          (click)="cancelarInscricao()"
+        >
+          Cancelar inscrição
+      </button>
+
       <div class="campo-detalhe">
         <span>E-mail</span>
         <strong>{{ inscricao.email }}</strong>
@@ -90,6 +98,8 @@
       <h2 id="titulo-edicao">Editar inscrição</h2>
       <p>Atualize seus dados antes de salvar.</p>
 
+      
+
       <form #formEdicao="ngForm" (ngSubmit)="salvarEdicao()">
         <label for="nomeEditado">Nome completo</label>
         <input
@@ -139,6 +149,8 @@
           <button type="button" (click)="fecharEdicao()">
             Cancelar
           </button>
+
+          
 
           <button type="submit" [disabled]="formEdicao.invalid">
             Salvar alterações

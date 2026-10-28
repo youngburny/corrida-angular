@@ -30,6 +30,14 @@ interface Participante {
 export class Inscricoes {
   participantes: Participante[] = [];
   mensagemErro = '';
+  mensagemSucesso = '';
+
+  ngOnInit(): void {
+  this.mensagemSucesso =
+    sessionStorage.getItem('mensagemSucesso') ?? '';
+
+  sessionStorage.removeItem('mensagemSucesso');
+}
 
   constructor(
     private inscricaoService: InscricaoService,

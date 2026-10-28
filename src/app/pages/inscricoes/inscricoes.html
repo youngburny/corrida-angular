@@ -42,6 +42,13 @@
 </section>
 
 <section class="participants-section">
+
+  @if (mensagemSucesso) {
+  <div class="mensagem-sucesso" role="status">
+    {{ mensagemSucesso }}
+  </div>
+}
+
   <div class="list-heading">
     <div>
       <h2>Lista de participantes</h2>

@@ -1,7 +1,7 @@
 
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import {
   InscricaoService
@@ -28,7 +28,8 @@ export class FormularioInscricao {
   mensagemSucesso = '';
 
   constructor(
-    private inscricaoService: InscricaoService
+    private inscricaoService: InscricaoService,
+    private router: Router
   ) {}
 
   enviarFormulario(): void {
@@ -47,11 +48,16 @@ export class FormularioInscricao {
 
       this.mensagemSucesso = 'Inscrição realizada com sucesso! Seus dados foram salvos.';
 
+      sessionStorage.setItem('mensagemSucesso', this.mensagemSucesso);
+
+
       // Limpa os campos depois do cadastro
       this.nome = '';
       this.email = '';
       this.nascimento = '';
       this.distancia = 'KM_5';
+
+      this.router.navigate(['/inscricoes']);
 
     } catch (erro: unknown) {
 

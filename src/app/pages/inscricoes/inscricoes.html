@@ -11,6 +11,14 @@
 </header>
 
 <section class="summary" aria-label="Resumo das inscrições">
+
+  @if (mensagemErro) {
+  <div class="error-message" role="alert">
+    <strong>Não foi possível carregar as inscrições.</strong>
+    <p>{{ mensagemErro }}</p>
+    <p>Os dados salvos não foram apagados. Verifique o armazenamento antes de continuar.</p>
+  </div>
+}
   <article class="summary-main">
     <span class="summary-label">PARTICIPANTES ATIVOS</span>
     <strong class="summary-number">{{ totalInscritos }}</strong>
@@ -95,7 +103,7 @@
         <span>🌱</span>
         <h3>A jornada começa com alguém.</h3>
         <p>Ainda não há participantes cadastrados.</p>
-        <a routerLink="/inscricoes/nova">Cadastrar primeiro participante</a>
+        <a routerLink="/inscricoes/nova-inscricao">Cadastrar primeiro participante</a>
       </div>
     }
   </div>

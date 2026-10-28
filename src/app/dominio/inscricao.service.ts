@@ -20,20 +20,72 @@ const CHAVE_STORAGE = 'corrida.inscricoes.v1';
 
 export class InscricaoService {
 
+  
   listar(): Inscricao[] {
-    const dados = localStorage.getItem(CHAVE_STORAGE);
+    let dados: string | null;
+
+    try {
+      dados = localStorage.getItem(CHAVE_STORAGE);
+    } catch {
+      throw new Error(
+        'Não foi possível acessar os dados salvos. Verifique o armazenamento do navegador.'
+      );
+    }
 
     if (!dados) {
       return [];
     }
 
-    const inscricoes: unknown = JSON.parse(dados);
+    let dadosConvertidos: unknown;
 
-    if (!Array.isArray(inscricoes)) {
-      throw new Error('Os dados salvos das inscrições são inválidos.');
+    try {
+      dadosConvertidos = JSON.parse(dados);
+    } catch {
+      throw new Error(
+        'Os dados salvos das inscrições estão corrompidos.'
+      );
     }
 
-    return inscricoes as Inscricao[];
+    if (!Array.isArray(dadosConvertidos)) {
+      throw new Error(
+        'Os dados salvos das inscrições não possuem uma lista válida.'
+      );
+    }
+
+    const estruturaValida = dadosConvertidos.every(
+      (item: unknown) => {
+        if (
+          item === null ||
+          typeof item !== 'object' ||
+          Array.isArray(item)
+        ) {
+          return false;
+        }
+
+        const inscricao = item as Partial<Inscricao>;
+
+        return (
+          typeof inscricao.nome === 'string' &&
+          inscricao.nome.trim().length > 0 &&
+          typeof inscricao.email === 'string' &&
+          inscricao.email.trim().length > 0 &&
+          typeof inscricao.nascimento === 'string' &&
+          /^\d{4}-\d{2}-\d{2}$/.test(inscricao.nascimento) &&
+          (
+            inscricao.distancia === 'KM_5' ||
+            inscricao.distancia === 'KM_10'
+          )
+        );
+      }
+    );
+
+    if (!estruturaValida) {
+      throw new Error(
+        'Existem inscrições salvas com dados inválidos.'
+      );
+    }
+
+    return dadosConvertidos as Inscricao[];
   }
 
   cadastrar(novaInscricao: Inscricao): void {
